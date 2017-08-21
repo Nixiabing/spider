@@ -3,6 +3,7 @@ import scrapy
 import json
 import csv
 import win32api
+import winsound
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -12,7 +13,7 @@ class WebSpider(scrapy.Spider):
     name = "web" #scrapy项目名称
     allowed_domains = ["web.org"]
     start_urls = [
-        
+        ""
     ]# 舆情监测系统的接口，不可外泄！！！
     def parse(self, response):
         js = json.loads(response.body,encoding='utf-8')["result"]
@@ -37,12 +38,13 @@ class WebSpider(scrapy.Spider):
                     writer = csv.writer(open('web.csv','ab+'))# 'ab+':在原有的数据基础上进行插入
                     writer.writerow(data)#插入一行数据
                     j = 1
+                    wav = 'sound.wav'#音频名称
+                    winsound.PlaySound(wav, winsound.SND_NODEFAULT)#播发提示音
                     # 弹出桌面提示框
                     title = "监测到新的舆情报道!"#标题
                     content = (s["webSource"] + ' : ' + s["webTitle"])#提示内容
                     url = "\n链接：" + s["webUrl"]#微博链接
                     win32api.MessageBox(0, (content + url).decode('utf8').encode('gbk'), title.decode('utf8').encode('gbk'))
-            
         if(j == 1):
             print("***  INFO:Web is updated now!  ***")
         else:

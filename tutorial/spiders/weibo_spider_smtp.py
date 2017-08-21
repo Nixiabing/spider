@@ -3,16 +3,17 @@ import scrapy
 import json
 import csv
 import yagmail
+import winsound
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 from tutorial.items import WeiboItem
 
-class WeiboSmtpSpider(scrapy.Spider):
-    name = "WeiboSmtp" #scrapy项目名称
-    allowed_domains = ["WeiboSmtp.org"]
+class WeiboSMTPSpider(scrapy.Spider):
+    name = "WeiboSMTP" #scrapy项目名称
+    allowed_domains = ["WeiboSMTP.org"]
     start_urls = [
-        
+        ""
     ]# 舆情监测系统的接口，不可外泄！！！
     def parse(self, response):
         js = json.loads(response.body,encoding='utf-8')["result"]
@@ -40,8 +41,10 @@ class WeiboSmtpSpider(scrapy.Spider):
                     title = "监测到新的舆情微博!"#标题
                     content = (s["weiboUser"] + ' : ' + s["weiboContent"])#提示内容
                     url = "\n链接：" + s["weiboUrl"]#微博链接
-                    yag = yagmail.SMTP(user='', password='', host='smtp.163.com', port='25')
+                    yag = yagmail.SMTP(user='', password='', host='smtp.139.com', port='25')
                     yag.send('', title, (content + url))
+                    wav = 'sound.wav'#音频名称
+                    winsound.PlaySound(wav, winsound.SND_NODEFAULT)#播发提示音
             '''
             实例化item
             item = WeiboItem()

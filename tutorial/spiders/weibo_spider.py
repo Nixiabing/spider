@@ -3,6 +3,7 @@ import scrapy
 import json
 import csv
 import win32api
+import winsound
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -12,7 +13,7 @@ class WeiboSpider(scrapy.Spider):
     name = "weibo" #scrapy项目名称
     allowed_domains = ["weibo.org"]
     start_urls = [
-        
+        ""
     ]# 舆情监测系统的接口，不可外泄！！！
     def parse(self, response):
         js = json.loads(response.body,encoding='utf-8')["result"]
@@ -36,6 +37,8 @@ class WeiboSpider(scrapy.Spider):
                     writer = csv.writer(open('weibo.csv','ab+'))# 'ab+':在原有的数据基础上进行插入
                     writer.writerow(data)#插入一行数据
                     j = 1
+                    wav = 'sound.wav'#音频名称
+                    winsound.PlaySound(wav, winsound.SND_NODEFAULT)#播发提示音
                     # 弹出桌面提示框
                     title = "监测到新的舆情微博!"#标题
                     content = (s["weiboUser"] + ' : ' + s["weiboContent"])#提示内容
@@ -55,3 +58,4 @@ class WeiboSpider(scrapy.Spider):
             print("***  INFO:Weibo is updated now!  ***")
         else:
             print("****  INFO:No new weibo~  ***")
+        

@@ -4,15 +4,16 @@ import json
 import csv
 import yagmail
 import sys
+import winsound
 reload(sys)
 sys.setdefaultencoding('utf-8')
 from tutorial.items import WebItem
 
-class WebSmtpSpider(scrapy.Spider):
-    name = "WebSmtp" #scrapy项目名称
-    allowed_domains = ["WebSmtp.org"]
+class WebSMTPSpider(scrapy.Spider):
+    name = "WebSMTP" #scrapy项目名称
+    allowed_domains = ["WebSMTP.org"]
     start_urls = [
-        
+        ""
     ]# 舆情监测系统的接口，不可外泄！！！
     def parse(self, response):
         js = json.loads(response.body,encoding='utf-8')["result"]
@@ -41,8 +42,10 @@ class WebSmtpSpider(scrapy.Spider):
                     title = "监测到新的舆情报道!"#标题
                     content = (s["webSource"] + ' : ' + s["webTitle"])#提示内容
                     url = "\n链接：" + s["webUrl"]#微博链接
-                    yag = yagmail.SMTP(user='', password='', host='smtp.163.com', port='25')
-                    yag.send('', title.decode('utf8').encode('gbk'), (content + url))
+                    yag = yagmail.SMTP(user='', password='', host='smtp.139.com', port='25')
+                    yag.send('', title, (content + url))
+                    wav = 'sound.wav'#音频名称
+                    winsound.PlaySound(wav, winsound.SND_NODEFAULT)#播发提示音
         if(j == 1):
             print("***  INFO:Web is updated now!  ***")
         else:
