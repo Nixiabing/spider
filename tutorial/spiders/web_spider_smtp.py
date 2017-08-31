@@ -3,8 +3,11 @@ import scrapy
 import json
 import csv
 import yagmail
-import sys
 import winsound
+import EmailList
+import sys
+sys.path.append('D:/py/tutorial')
+import EmailList
 reload(sys)
 sys.setdefaultencoding('utf-8')
 from tutorial.items import WebItem
@@ -16,6 +19,7 @@ class WebSMTPSpider(scrapy.Spider):
         ""
     ]# 舆情监测系统的接口，不可外泄！！！
     def parse(self, response):
+        email = EmailList.e
         js = json.loads(response.body,encoding='utf-8')["result"]
         j = 0
         for s in js:
@@ -42,8 +46,8 @@ class WebSMTPSpider(scrapy.Spider):
                     title = "监测到新的舆情报道!"#标题
                     content = (s["webSource"] + ' : ' + s["webTitle"])#提示内容
                     url = "\n链接：" + s["webUrl"]#微博链接
-                    yag = yagmail.SMTP(user='', password='', host='smtp.139.com', port='25')
-                    yag.send('', title, (content + url))
+                    yag = yagmail.SMTP(user='', password='', host='', port='')
+                    yag.send(email, title, (content + url))
                     wav = 'sound.wav'#音频名称
                     winsound.PlaySound(wav, winsound.SND_NODEFAULT)#播发提示音
         if(j == 1):

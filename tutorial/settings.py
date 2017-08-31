@@ -88,15 +88,3 @@ ROBOTSTXT_OBEY = True
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-EXTENSIONS = {
-    'scrapy_status_mailer.StatusMailer': 80,
-}
-
-STATSMAILER_RCPTS = ['240366771@qq.com',] 
-MAIL_FROM='18958046047@163.com' 
-MAIL_HOST='smtp.163.com' 
-MAIL_PORT=465
-MAIL_USER='18958046047@163.com' 
-MAIL_PASS='ni123456'
-MAIL_TLS = True
-MAIL_SSL = True

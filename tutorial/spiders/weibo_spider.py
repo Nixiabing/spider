@@ -13,7 +13,7 @@ class WeiboSpider(scrapy.Spider):
     name = "weibo" #scrapy项目名称
     allowed_domains = ["weibo.org"]
     start_urls = [
-        ""
+        
     ]# 舆情监测系统的接口，不可外泄！！！
     def parse(self, response):
         js = json.loads(response.body,encoding='utf-8')["result"]

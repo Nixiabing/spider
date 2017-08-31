@@ -7,6 +7,7 @@
 
 import scrapy
 
+
 class TutorialItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
@@ -26,3 +27,9 @@ class WebItem(scrapy.Item):
     webDes = scrapy.Field()#主要内容
     webUrl = scrapy.Field()#报道网址
     webType = scrapy.Field()#检测重要性（0：轻微；2：严重）
+
+class VideoItem(scrapy.Item):
+    videoId = scrapy.Field()#视频ID（唯一）
+    sourceName = scrapy.Field()#视频媒体
+    videoTitle = scrapy.Field()#视频标题
+    videoUrl = scrapy.Field()#报道网址
